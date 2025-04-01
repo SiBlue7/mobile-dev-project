@@ -2,6 +2,7 @@ package com.example.mobile_dev_project
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
+import android.widget.Button
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
@@ -30,6 +32,7 @@ import androidx.camera.video.QualitySelector
 import androidx.camera.video.VideoRecordEvent
 import androidx.core.content.PermissionChecker
 import com.example.mobile_dev_project.databinding.ActivityMainBinding
+import com.example.mobile_dev_project.ui.theme.DetectImageActivity
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -64,6 +67,14 @@ class MainActivity : AppCompatActivity() {
         viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        // Set up the listeners for select image and back buttons
+        val selectImageButton: Button = findViewById(R.id.select_image_button)
+
+        selectImageButton.setOnClickListener {
+            val intent = Intent(this, DetectImageActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun takePhoto() {
