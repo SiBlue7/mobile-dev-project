@@ -81,7 +81,12 @@ class MainActivity : ComponentActivity() {
         // Demande des permissions caméra dès le lancement
         ActivityCompat.requestPermissions(
             this,
-            CAMERA_PERMS,
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.WRITE_CONTACTS
+            ),
             REQUEST_CODE_CAMERA_PERMS
         )
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -154,28 +159,42 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // Preview Caméra
                     if (useCamera) {
-                        val providerFuture = remember {
-                            ProcessCameraProvider.getInstance(context)
-                        }
+                        val providerFuture = remember { ProcessCameraProvider.getInstance(context) }
+
                         AndroidView(
                             factory = { ctx ->
                                 PreviewView(ctx).also { previewView ->
-                                    imageCapture = ImageCapture.Builder().build()
-                                    val preview = Preview.Builder()
-                                        .build()
-                                        .apply {
+                                    providerFuture.addListener({
+                                        val cameraProvider = providerFuture.get()
+
+                                        // Débind tout ce qui existe (important sur certains appareils)
+                                        cameraProvider.unbindAll()
+
+                                        // Création des use cases
+                                        val preview = Preview.Builder().build().apply {
                                             setSurfaceProvider(previewView.surfaceProvider)
                                         }
-                                    providerFuture.get().bindToLifecycle(
-                                        lifecycleOwner,
-                                        CameraSelector.DEFAULT_BACK_CAMERA,
-                                        preview,
-                                        imageCapture
-                                    )
+
+                                        val imageCaptureBuilt = ImageCapture.Builder().build()
+                                        imageCapture = imageCaptureBuilt
+
+                                        try {
+                                            cameraProvider.bindToLifecycle(
+                                                lifecycleOwner,
+                                                CameraSelector.DEFAULT_BACK_CAMERA,
+                                                preview,
+                                                imageCaptureBuilt
+                                            )
+                                        } catch (exc: Exception) {
+                                            Toast.makeText(ctx, "Erreur caméra : ${exc.message}", Toast.LENGTH_LONG).show()
+                                        }
+
+                                    }, ContextCompat.getMainExecutor(ctx))
                                 }
                             },
                             modifier = Modifier.fillMaxSize()
                         )
+
                     }
 
                     // Affichage image capturée / galerie
