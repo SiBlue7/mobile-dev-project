@@ -143,7 +143,7 @@ class MainActivity : ComponentActivity() {
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text("OCR + CameraX") },
+                        title = { Text("Snappy") },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor    = MaterialTheme.colorScheme.surface,
                             titleContentColor = MaterialTheme.colorScheme.onSurface
