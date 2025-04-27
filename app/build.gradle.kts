@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
-
 android {
     namespace = "com.example.mobile_dev_project"
     compileSdk = 35
@@ -40,22 +39,39 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.tensorflow.lite.task.vision)
-    implementation(libs.androidx.lifecycle.runtime.ktx.v262)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.core.ktx)
+
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
+
+    // === Text-input APIs (KeyboardOptions, KeyboardType, ImeAction) ===
+    implementation(libs.ui.text)          // → alias 'ui-text'
+    implementation(libs.ui.text.android)   // ui-text-android
+
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+
+    implementation(libs.tensorflow.lite.task.vision)
+    implementation(libs.text.recognition)
+    implementation(libs.play.services.mlkit.text.recognition)
+    implementation(libs.vision.common)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle.v110beta01)
+    implementation(libs.androidx.camera.video)
+    implementation(libs.androidx.camera.view.v110beta01)
+    implementation(libs.androidx.camera.extensions)
+    implementation (libs.material3)
+    implementation(libs.androidx.core.splashscreen)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

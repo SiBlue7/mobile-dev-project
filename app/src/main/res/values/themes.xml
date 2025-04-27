@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.Mobiledevproject" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Mobiledevproject.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/snappy_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.Mobiledevproject</item>
+    </style>
+
 </resources>
